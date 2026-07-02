@@ -1,31 +1,18 @@
-// api/users.js - Versi dengan Hardcode Sementara
+// api/users.js - Pake Environment Variables
 const { createClient } = require('@supabase/supabase-js');
 
 module.exports = async function handler(req, res) {
-  // 🔥 HARDCODE SEMENTARA UNTUK TESTING
-  // (Hapus ini setelah berhasil!)
-  const supabaseUrl = 'https://spwlyrrgowitiacgxjni.supabase.co';
-  const supabaseKey = 'sb_publishable_B0GDNWvGNbF98hWcsBKmUg_HADtmbH5';
-  
-  // // 🔄 Nanti aktifkan ini setelah hardcode berhasil
-  // const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  // const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  // 🔥 PAKE ENVIRONMENT VARIABLES (BUKAN HARDCODE)
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
 
-  // Validasi URL
-  if (!supabaseUrl || !supabaseUrl.startsWith('https://')) {
-    console.error('Invalid URL:', supabaseUrl);
+  // Validasi
+  if (!supabaseUrl || !supabaseKey) {
+    console.error('Missing env vars');
     return res.status(500).json({
-      error: 'Invalid Supabase URL',
-      urlReceived: supabaseUrl,
-      urlLength: supabaseUrl?.length || 0
-    });
-  }
-
-  if (!supabaseKey || supabaseKey.length < 10) {
-    console.error('Invalid Key:', supabaseKey);
-    return res.status(500).json({
-      error: 'Invalid Supabase Key',
-      keyLength: supabaseKey?.length || 0
+      error: 'Missing Supabase credentials',
+      hasUrl: !!supabaseUrl,
+      hasKey: !!supabaseKey
     });
   }
 
