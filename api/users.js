@@ -1,6 +1,10 @@
-const { createClient } = require('@supabase/supabase-js');
+import { createClient } from '@supabase/supabase-js';
 
-module.exports = async function handler(req, res) {
+// Hardcode dulu untuk testing
+const SUPABASE_URL = 'https://spwlyrrgowitiacgxjni.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_B0GDNWvGNbF98hWcsBKmUg_HADtmbH5';
+
+export default async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -10,23 +14,11 @@ module.exports = async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || 'https://spwlyrrgowitiacgxjni.supabase.co';
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() || 'sb_publishable_B0GDNWvGNbF98hWcsBKmUg_HADtmbH5';
-
-  if (!supabaseUrl || !supabaseKey) {
-    return res.status(500).json({
-      error: 'Missing Supabase credentials',
-      details: {
-        hasUrl: !!supabaseUrl,
-        hasKey: !!supabaseKey
-      }
-    });
-  }
-
   try {
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
     if (req.method === 'GET') {
+      console.log('📥 Fetching users...');
       const { data, error } = await supabase
         .from('users')
         .select('*')
@@ -34,30 +26,36 @@ module.exports = async function handler(req, res) {
         .limit(10);
       
       if (error) {
-        console.error('Query error:', error);
-        return res.status(500).json({ error: error.message });
+        console.error('❌ Query error:', error);
+        return res.status(500).json({ 
+          error: error.message,
+          details: error.details
+        });
       }
       
+      console.log('✅ Users fetched:', data?.length || 0);
       return res.status(200).json(data || []);
     }
 
     if (req.method === 'POST') {
-      const { email, username, full_name, avatar_url } = req.body;
+      console.log('📝 Creating user...');
+      const { email, username, full_name, avatar_url } = req.body || {};
       
       if (!email || !username) {
-        return res.status(400).json({ error: 'Email and username required' });
+        return res.status(400).json({ 
+          error: 'Email and username required'
+        });
       }
       
-      // Biarkan Supabase generate UUID otomatis
       const newUser = {
-        email,
-        username,
-        full_name: full_name || username,
-        avatar_url: avatar_url || '',
+        email: email.trim(),
+        username: username.trim(),
+        full_name: full_name?.trim() || username.trim(),
+        avatar_url: avatar_url?.trim() || '',
         status: 'active'
       };
       
-      console.log('📝 Creating user:', newUser);
+      console.log('📝 New user data:', newUser);
       
       const { data, error } = await supabase
         .from('users')
@@ -82,7 +80,7 @@ module.exports = async function handler(req, res) {
     console.error('💥 Unexpected error:', error);
     return res.status(500).json({
       error: 'Internal server error',
-      message: error.message
+      message: error.message || 'Unknown error'
     });
   }
-};
+}
