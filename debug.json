@@ -1,0 +1,1 @@
+{"message":"Debug environment variables","url":{"exists":true,"isString":true,"length":44,"value":"# Ketika muncul \"? Value?\" di Termux, ketik:","firstTenChars":"# Ketika m","startsWithHttps":false},"key":{"exists":true,"isString":true,"length":34,"firstFiveChars":"# Ket"},"allEnvKeys":["NEXT_PUBLIC_SUPABASE_ANON_KEY","NEXT_PUBLIC_SUPABASE_URL"]}

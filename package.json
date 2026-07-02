@@ -1,7 +1,12 @@
 {
   "name": "backend9",
   "version": "1.0.0",
+  "description": "Supabase backend API",
   "main": "api/users.js",
+  "scripts": {
+    "start": "node api/users.js",
+    "test": "node test-connection.js"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.3"
   }
