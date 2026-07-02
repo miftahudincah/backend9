@@ -1,5 +1,4 @@
 const { createClient } = require('@supabase/supabase-js');
-const { v4: uuidv4 } = require('uuid');
 
 module.exports = async function handler(req, res) {
   // CORS
@@ -49,9 +48,8 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'Email and username required' });
       }
       
-      // Generate UUID untuk id
+      // Biarkan Supabase generate UUID otomatis
       const newUser = {
-        id: uuidv4(), // ← Generate UUID otomatis
         email,
         username,
         full_name: full_name || username,

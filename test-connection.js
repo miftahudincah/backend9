@@ -1,37 +1,55 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 
-// Hardcode dulu buat test
-const supabaseUrl = 'https://spwlyrrgowitiacgxjni.supabase.co'
-const supabaseKey = 'sb_publishable_B0GDNWvGNbF98hWcsBKmUg_HADtmbH5'
+// Load environment variables
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || 'https://spwlyrrgowitiacgxjni.supabase.co';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() || 'sb_publishable_B0GDNWvGNbF98hWcsBKmUg_HADtmbH5';
 
-const supabase = createClient(supabaseUrl, supabaseKey)
+console.log('🔍 Testing Supabase connection...');
+console.log('URL:', supabaseUrl ? '✅ Set' : '❌ Missing');
+console.log('Key:', supabaseKey ? '✅ Set' : '❌ Missing');
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('❌ Environment variables not set!');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function test() {
-  console.log('🔄 Mencoba insert data...')
+  console.log('\n🔄 Testing insert...');
   
-  // Insert sample data
+  const newUser = {
+    email: `test-${Date.now()}@termux.com`,
+    username: `termux_${Date.now()}`,
+    full_name: 'Termux User',
+    status: 'active'
+  };
+  
   const { data: insertData, error: insertError } = await supabase
     .from('users')
-    .insert([{ email: 'test@termux.com', name: 'Termux User' }])
+    .insert([newUser])
+    .select();
   
   if (insertError) {
-    console.log('❌ Gagal insert:', insertError.message)
+    console.log('❌ Insert failed:', insertError.message);
+    console.log('🔍 Error details:', insertError);
   } else {
-    console.log('✅ Insert berhasil:', insertData)
+    console.log('✅ Insert success:', insertData);
   }
 
-  console.log('🔄 Mencoba select data...')
+  console.log('\n🔄 Testing select...');
   
-  // Select semua users
   const { data: users, error: selectError } = await supabase
     .from('users')
     .select('*')
+    .limit(5);
   
   if (selectError) {
-    console.log('❌ Gagal select:', selectError.message)
+    console.log('❌ Select failed:', selectError.message);
   } else {
-    console.log('📋 Data users:', users)
+    console.log(`✅ Found ${users?.length || 0} users:`);
+    console.log(users);
   }
 }
 
-test()
+test();
