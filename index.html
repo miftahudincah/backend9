@@ -17,7 +17,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -27,7 +27,7 @@
         h1 {
             color: #333;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .subtitle {
             text-align: center;
@@ -46,6 +46,11 @@
             margin-bottom: 15px;
             font-size: 18px;
         }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
         .form-group {
             margin-bottom: 15px;
         }
@@ -54,6 +59,7 @@
             font-weight: 600;
             margin-bottom: 5px;
             color: #333;
+            font-size: 14px;
         }
         .form-group input {
             width: 100%;
@@ -73,8 +79,8 @@
             background: white;
         }
         .preview-container {
-            margin: 15px 0;
             text-align: center;
+            margin: 15px 0;
         }
         #imagePreview {
             max-width: 150px;
@@ -83,6 +89,7 @@
             display: none;
             border: 3px solid #667eea;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            object-fit: cover;
         }
         .btn {
             padding: 12px 30px;
@@ -92,6 +99,9 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
         .btn-primary {
             background: #667eea;
@@ -120,6 +130,15 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(245, 101, 101, 0.4);
         }
+        .btn-warning {
+            background: #ed8936;
+            color: white;
+        }
+        .btn-warning:hover {
+            background: #dd6b20;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(237, 137, 54, 0.4);
+        }
         .btn-group {
             display: flex;
             gap: 10px;
@@ -128,7 +147,7 @@
         }
         .users-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
@@ -140,6 +159,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border: 1px solid #e2e8f0;
             transition: all 0.3s;
+            position: relative;
         }
         .user-card:hover {
             transform: translateY(-5px);
@@ -175,10 +195,28 @@
             color: #666;
             font-size: 12px;
             word-break: break-all;
+            margin-bottom: 5px;
+        }
+        .user-id {
+            color: #999;
+            font-size: 10px;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .card-actions .btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 8px;
         }
         .loading {
             text-align: center;
-            padding: 20px;
+            padding: 40px;
             color: #666;
         }
         .spinner {
@@ -188,7 +226,7 @@
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
+            margin: 0 auto 15px;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -210,6 +248,11 @@
             color: #9b2c2c;
             display: block;
         }
+        .alert-info {
+            background: #bee3f8;
+            color: #2a4365;
+            display: block;
+        }
         .badge {
             display: inline-block;
             padding: 3px 10px;
@@ -219,33 +262,132 @@
             font-size: 11px;
             margin-top: 5px;
         }
+        .badge-danger {
+            background: #f56565;
+        }
+        .badge-warning {
+            background: #ed8936;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .delete-confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .delete-confirm-modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .modal-content h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .modal-content p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-item .number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .stat-item .label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 15px;
+            }
+            .users-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📸 Upload & Display Gambar</h1>
-        <p class="subtitle">Backend9 × Supabase Storage</p>
+        <h1>📸 Gallery & User Management</h1>
+        <p class="subtitle">Backend9 × Supabase Storage | CRUD Users</p>
 
-        <!-- Alert Messages -->
+        <!-- Alert -->
         <div id="alert" class="alert"></div>
+
+        <!-- Stats -->
+        <div class="stats" id="statsContainer">
+            <div class="stat-item">
+                <div class="number" id="totalUsers">0</div>
+                <div class="label">Total Users</div>
+            </div>
+            <div class="stat-item">
+                <div class="number" id="totalWithAvatar">0</div>
+                <div class="label">With Avatar</div>
+            </div>
+        </div>
 
         <!-- Upload Section -->
         <div class="upload-section">
-            <h2>📤 Upload Avatar</h2>
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="username" placeholder="Masukkan username" required>
+            <h2>📤 Upload New User</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>👤 Username *</label>
+                    <input type="text" id="username" placeholder="Masukkan username" required>
+                </div>
+                <div class="form-group">
+                    <label>📧 Email *</label>
+                    <input type="email" id="email" placeholder="Masukkan email" required>
+                </div>
             </div>
             <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="email" placeholder="Masukkan email" required>
+                <label>📝 Full Name</label>
+                <input type="text" id="fullName" placeholder="Nama lengkap (opsional)">
             </div>
             <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" id="fullName" placeholder="Nama lengkap">
-            </div>
-            <div class="form-group">
-                <label>Pilih Gambar</label>
+                <label>🖼️ Avatar Image</label>
                 <input type="file" id="imageInput" accept="image/*">
             </div>
             <div class="preview-container">
@@ -254,12 +396,13 @@
             <div class="btn-group">
                 <button class="btn btn-primary" onclick="uploadUser()">📤 Upload & Simpan</button>
                 <button class="btn btn-success" onclick="loadUsers()">🔄 Refresh Data</button>
+                <button class="btn btn-danger" onclick="deleteAllUsers()">🗑️ Hapus Semua</button>
             </div>
         </div>
 
         <!-- Users List -->
-        <div style="margin-top: 20px;">
-            <h2>👥 Daftar Users</h2>
+        <div>
+            <h2>👥 Users <span id="userCount" style="font-size:14px;color:#999;"></span></h2>
             <div id="usersContainer">
                 <div class="loading">
                     <div class="spinner"></div>
@@ -269,8 +412,22 @@
         </div>
     </div>
 
+    <!-- Delete Confirmation Modal -->
+    <div class="delete-confirm-modal" id="deleteModal">
+        <div class="modal-content">
+            <h3>⚠️ Konfirmasi Hapus</h3>
+            <p id="deleteMessage">Apakah Anda yakin ingin menghapus user ini?</p>
+            <div class="modal-actions">
+                <button class="btn btn-danger" onclick="confirmDelete()">🗑️ Hapus</button>
+                <button class="btn btn-primary" onclick="closeDeleteModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const API_URL = 'https://backend9.vercel.app/api';
+        let deleteTargetId = null;
+        let deleteTargetAction = 'single'; // 'single' or 'all'
         
         // Load users on page load
         window.onload = function() {
@@ -301,8 +458,18 @@
                 
                 const users = await response.json();
                 
+                // Update stats
+                document.getElementById('totalUsers').textContent = users.length;
+                document.getElementById('totalWithAvatar').textContent = users.filter(u => u.avatar_url).length;
+                document.getElementById('userCount').textContent = `(${users.length})`;
+                
                 if (users.length === 0) {
-                    container.innerHTML = '<p style="text-align:center;color:#666;">Belum ada user. Upload dulu yuk! 🚀</p>';
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">📭</div>
+                            <p>Belum ada user. Upload dulu yuk! 🚀</p>
+                        </div>
+                    `;
                     return;
                 }
 
@@ -311,13 +478,17 @@
                         ${users.map(user => `
                             <div class="user-card">
                                 ${user.avatar_url ? 
-                                    `<img src="${user.avatar_url}" alt="${user.full_name}" class="user-avatar">` :
-                                    `<div class="user-avatar-placeholder">${user.full_name?.charAt(0) || '?'}</div>`
+                                    `<img src="${user.avatar_url}" alt="${user.full_name}" class="user-avatar" onerror="this.src=''">` :
+                                    `<div class="user-avatar-placeholder">${user.full_name?.charAt(0) || user.username?.charAt(0) || '?'}</div>`
                                 }
                                 <div class="user-name">${user.full_name || user.username}</div>
                                 <div class="user-email">${user.email}</div>
-                                <div class="badge">${user.status || 'active'}</div>
-                                ${user.avatar_url ? '' : '<div style="font-size:11px;color:#999;margin-top:5px;">No avatar</div>'}
+                                <div class="user-id">🆔 ${user.id?.substring(0, 8)}...</div>
+                                <div class="badge ${user.status === 'inactive' ? 'badge-danger' : ''}">${user.status || 'active'}</div>
+                                ${user.avatar_url ? '<div style="font-size:11px;color:#48bb78;margin-top:5px;">✅ Avatar</div>' : '<div style="font-size:11px;color:#999;margin-top:5px;">No avatar</div>'}
+                                <div class="card-actions">
+                                    <button class="btn btn-danger" onclick="deleteUser('${user.id}')">🗑️ Hapus</button>
+                                </div>
                             </div>
                         `).join('')}
                     </div>
@@ -338,18 +509,16 @@
             const fullName = document.getElementById('fullName').value.trim();
             const imageFile = document.getElementById('imageInput').files[0];
 
-            // Validasi
             if (!username || !email) {
                 showAlert('Username dan Email wajib diisi!', 'error');
                 return;
             }
 
             try {
-                showAlert('⏳ Uploading...', 'success');
+                showAlert('⏳ Uploading...', 'info');
                 
                 let avatarUrl = '';
                 
-                // Upload gambar jika ada
                 if (imageFile) {
                     const reader = new FileReader();
                     const imageData = await new Promise((resolve) => {
@@ -375,7 +544,6 @@
                     avatarUrl = uploadResult.url;
                 }
 
-                // Simpan user
                 const userData = {
                     username,
                     email,
@@ -394,7 +562,6 @@
                     throw new Error(errorData.error || 'Gagal menyimpan user');
                 }
 
-                const userResult = await userResponse.json();
                 showAlert(`✅ User "${username}" berhasil disimpan!`, 'success');
                 
                 // Reset form
@@ -404,7 +571,6 @@
                 document.getElementById('imageInput').value = '';
                 document.getElementById('imagePreview').style.display = 'none';
                 
-                // Reload users
                 loadUsers();
                 
             } catch (error) {
@@ -413,12 +579,68 @@
             }
         }
 
+        function deleteUser(id) {
+            deleteTargetId = id;
+            deleteTargetAction = 'single';
+            document.getElementById('deleteMessage').textContent = 'Apakah Anda yakin ingin menghapus user ini? Tindakan ini tidak dapat dibatalkan!';
+            document.getElementById('deleteModal').classList.add('active');
+        }
+
+        function deleteAllUsers() {
+            deleteTargetId = null;
+            deleteTargetAction = 'all';
+            document.getElementById('deleteMessage').textContent = '⚠️ Apakah Anda yakin ingin menghapus SEMUA user? Tindakan ini tidak dapat dibatalkan!';
+            document.getElementById('deleteModal').classList.add('active');
+        }
+
+        async function confirmDelete() {
+            try {
+                if (deleteTargetAction === 'all') {
+                    // Hapus semua user
+                    const response = await fetch(`${API_URL}/users`);
+                    const users = await response.json();
+                    
+                    for (const user of users) {
+                        await fetch(`${API_URL}/users?id=${user.id}`, {
+                            method: 'DELETE'
+                        });
+                    }
+                    
+                    showAlert('✅ Semua user berhasil dihapus!', 'success');
+                } else if (deleteTargetId) {
+                    // Hapus single user
+                    const response = await fetch(`${API_URL}/users?id=${deleteTargetId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Gagal menghapus user');
+                    }
+
+                    showAlert('✅ User berhasil dihapus!', 'success');
+                }
+                
+                closeDeleteModal();
+                loadUsers();
+                
+            } catch (error) {
+                showAlert('❌ Error: ' + error.message, 'error');
+                closeDeleteModal();
+            }
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+            deleteTargetId = null;
+            deleteTargetAction = 'single';
+        }
+
         function showAlert(message, type) {
             const alertEl = document.getElementById('alert');
             alertEl.textContent = message;
             alertEl.className = 'alert alert-' + type;
             
-            // Auto hide after 5 seconds
             clearTimeout(window.alertTimeout);
             window.alertTimeout = setTimeout(() => {
                 alertEl.className = 'alert';
@@ -430,6 +652,9 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && e.target.closest('.form-group')) {
                 uploadUser();
+            }
+            if (e.key === 'Escape') {
+                closeDeleteModal();
             }
         });
     </script>
